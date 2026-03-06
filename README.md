@@ -1,12 +1,17 @@
-# Claude Code Custom Skills
+# Productivity Agent Skills
 
-Custom skills for Claude Code. Each skill lives under `skills/<skill-name>/` and follows the standard `SKILL.md` format.
+My customized skills for Claude Code. Create with the help of latest [skill-creator](https://claude.com/blog/improving-skill-creator-test-measure-and-refine-agent-skills). Each skill lives under `skills/<skill-name>/` and follows the standard agent skill format.
 
 ## Available Skills
 
-### run-codex
+### /run-codex
 
 Uses OpenAI Codex CLI as a read-only oracle for planning, code review, and analysis. Codex never implements changes directly -- it provides a second opinion that Claude synthesizes and presents. Supports configurable reasoning effort levels and requires explicit user approval before each invocation.
+
+### /guide-me
+
+Live guidance for Claude Code. Answers questions about features, configuration, workflows, hooks, MCP servers, skills, CLAUDE.md, IDE integrations, and best practices by fetching up-to-date information from official Anthropic documentation and community discussions at runtime.
+
 
 ## Structure
 
@@ -40,4 +45,17 @@ for skill in skills/*/; do
 done
 ```
 
-Once installed, skills activate automatically based on trigger phrases defined in each skill's `SKILL.md`.
+Once installed, exit and restart Claude Code, and skills activate automatically based on trigger phrases defined in each skill's `SKILL.md`.
+
+
+To use a skill, simply mention the trigger phrase in your Claude Code session. For example, to use the `run-codex` skill, you can say:
+
+```
+/run-codex Review the code in the current directory and suggest tests and improvements.
+```
+
+To use the `guide-me` skill, you can say:
+
+```
+/guide-me What is the difference between a skill and a subagent in Claude Code?
+```
