@@ -1,4 +1,4 @@
-# Skills
+# Claude Code Custom Skills
 
 Custom skills for Claude Code. Each skill lives under `skills/<skill-name>/` and follows the standard `SKILL.md` format.
 
@@ -18,6 +18,26 @@ skills/
     references/         # Reference docs
 ```
 
-## Usage
+## Installation
 
-Skills are installed into Claude Code via the `~/.claude/` configuration directory. Once installed, they activate automatically based on trigger phrases defined in each skill's `SKILL.md`.
+Skills need to be copied (or symlinked) into `~/.claude/skills/` so Claude Code can discover them. To install all skills from this repo at once:
+
+```bash
+# Create the skills directory if it doesn't exist
+mkdir -p ~/.claude/skills
+
+# Symlink each skill (recommended -- stays in sync with the repo)
+for skill in skills/*/; do
+  ln -sfn "$(pwd)/$skill" ~/.claude/skills/"$(basename "$skill")"
+done
+```
+
+Alternatively, copy them if you prefer a standalone install:
+
+```bash
+for skill in skills/*/; do
+  cp -r "$skill" ~/.claude/skills/"$(basename "$skill")"
+done
+```
+
+Once installed, skills activate automatically based on trigger phrases defined in each skill's `SKILL.md`.
