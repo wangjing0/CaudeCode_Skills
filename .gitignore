@@ -5,7 +5,6 @@ env/
 *.venv
 
 # Skill Data (NEVER commit - contains auth and personal notebooks!)
-notebooklm
 data/
 data/*
 data/**/*
@@ -73,3 +72,4 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+**/data/

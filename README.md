@@ -12,6 +12,13 @@ Uses OpenAI Codex CLI as a read-only oracle for planning, code review, and analy
 
 Live guidance for Claude Code. Answers questions about features, configuration, workflows, hooks, MCP servers, skills, CLAUDE.md, IDE integrations, and best practices by fetching up-to-date information from official Anthropic documentation and community discussions at runtime.
 
+### /causal-inference-llm
+
+Causal inference and relationship discovery using large language models. Discovers causal links between events, identifies latent confounders, and constructs directed acyclic graphs (DAGs) from domain knowledge and LLM reasoning.
+
+### /notebooklm
+
+Query your Google NotebookLM notebooks directly from Claude Code for source-grounded, citation-backed answers from Gemini. Provides browser automation, library management, and persistent auth with drastically reduced hallucinations through document-only responses.
 
 ## Structure
 
