@@ -18,7 +18,7 @@ Use OpenAI Codex CLI as a **read-only oracle** for planning, review, and analysi
 Parse `$ARGUMENTS` for:
 
 - **query** -- the main question or task (everything not a flag). If empty, ask the user to provide a query and stop.
-- `--reasoning <level>` -- override reasoning effort (`minimal`, `low`, `medium`, `high`). Default is auto-selected based on complexity.
+- `--reasoning <level>` -- override reasoning effort (`none`, `low`, `medium`, `high`, `xhigh`). Default is auto-selected based on complexity.
 
 ## Prerequisites
 
@@ -34,24 +34,41 @@ If it exits non-zero, display the error and stop. Use the wrapper for all `codex
 scripts/run-codex-exec.sh
 ```
 
+### Upgrading Codex CLI
+
+The model allowlist in this skill is version-sensitive — an outdated CLI may reject newer models or effort levels. If `scripts/check-codex.sh --verbose` reports an old version, the user must upgrade manually. Do not run upgrade commands automatically; show the appropriate command and wait for the user to confirm and run it themselves.
+
+**npm (recommended):**
+```bash
+npm install -g @openai/codex@latest
+```
+
+**Homebrew:**
+```bash
+brew upgrade codex
+```
+
+After upgrading, re-run `scripts/check-codex.sh --verbose` to confirm the new version.
+
 ## Configuration
 
-| Setting   | Default         | Override                                        |
-| --------- | --------------- | ----------------------------------------------- |
-| Model     | `gpt-5-codex` | Allowlist only (see `references/codex-flags.md`) |
-| Reasoning | Auto            | `--reasoning <level>` or user prose             |
-| Sandbox   | `read-only`     | Not overridable                                 |
+| Setting   | Default           | Override                                        |
+| --------- | ----------------- | ----------------------------------------------- |
+| Model     | `gpt-5.3-codex`   | Allowlist only (see `references/codex-flags.md`) |
+| Reasoning | Auto              | `--reasoning <level>` or user prose             |
+| Sandbox   | `read-only`       | Not overridable                                 |
 
 ### Reasoning Effort
 
-| Complexity | Effort    | Timeout  | Criteria                             |
-| ---------- | --------- | -------- | ------------------------------------ |
-| Trivial    | `minimal` | 300000ms | Single question, no files            |
-| Simple     | `low`     | 300000ms | <3 files, quick question             |
-| Moderate   | `medium`  | 300000ms | 3-10 files, focused analysis         |
-| Complex    | `high`    | 600000ms | Multi-module, architectural thinking |
+| Complexity | Effort   | Timeout  | Criteria                             |
+| ---------- | -------- | -------- | ------------------------------------ |
+| Trivial    | `none`   | 300000ms | Single question, no files            |
+| Simple     | `low`    | 300000ms | <3 files, quick question             |
+| Moderate   | `medium` | 300000ms | 3-10 files, focused analysis         |
+| Complex    | `high`   | 600000ms | Multi-module, architectural thinking |
+| Critical   | `xhigh`  | 600000ms | Deep architectural or security work  |
 
-For `high` effort tasks that may exceed 10 minutes, use `run_in_background: true` on the Bash tool and set `CODEX_OUTPUT` so the output can be read later.
+For `high` or `xhigh` effort tasks that may exceed 10 minutes, use `run_in_background: true` on the Bash tool and set `CODEX_OUTPUT` so the output can be read later.
 
 See `references/codex-flags.md` for full flag documentation.
 
@@ -118,7 +135,7 @@ Read the output file and present with attribution:
 [Codex output -- summarize if >200 lines]
 
 ---
-Model: gpt-5-codex | Reasoning: [effort level]
+Model: gpt-5.3-codex | Reasoning: [effort level]
 ```
 
 Synthesize key insights and actionable items for the user.
